@@ -4,7 +4,7 @@ import java.util.Set;
 
 public class EnrollmentDTO {
     private Integer id;
-    private StudentsDTO students;
+    private StudentsDTO student;
     private CoursDTO course;
     private Integer year;
     private Set<ScoreDTO> scores;
@@ -12,9 +12,9 @@ public class EnrollmentDTO {
     public EnrollmentDTO() {
     }
 
-    public EnrollmentDTO(Integer id, StudentsDTO students, CoursDTO course, Integer year, Set<ScoreDTO> scores) {
+    public EnrollmentDTO(Integer id, StudentsDTO student, CoursDTO course, Integer year, Set<ScoreDTO> scores) {
         this.id = id;
-        this.students = students;
+        this.student = student;
         this.course = course;
         this.year = year;
         this.scores = scores;
@@ -28,12 +28,12 @@ public class EnrollmentDTO {
         this.id = id;
     }
 
-    public StudentsDTO getStudents() {
-        return students;
+    public StudentsDTO getStudent() {
+        return student;
     }
 
-    public void setStudents(StudentsDTO students) {
-        this.students = students;
+    public void setStudent(StudentsDTO student) {
+        this.student = student;
     }
 
     public CoursDTO getCourse() {
