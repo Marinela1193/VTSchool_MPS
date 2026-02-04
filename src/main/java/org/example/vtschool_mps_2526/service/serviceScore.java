@@ -11,14 +11,14 @@ class serviceScore {
     @Autowired
     private ScoreDAO scoreDAO;
 
-    public ScoreEntity save(ScoreEntity score) {
+    public ScoreEntity saveScore(ScoreEntity score) {
         if (scoreDAO.existsById(score.getId())) {
             return null;
         }
         return scoreDAO.save(score);
     }
 
-    public ScoreEntity update(ScoreEntity score) {
+    public ScoreEntity updateScore(ScoreEntity score) {
         if(!scoreDAO.existsById(score.getId())) {
             return null;
         }
@@ -31,7 +31,7 @@ class serviceScore {
         return scoreDAO.save(score1);
     }
 
-    public void deleteById(Integer id) {
+    public void deleteScoreById(Integer id) {
         if (scoreDAO.existsById(id)) {
             scoreDAO.deleteById(id);
         }
