@@ -37,7 +37,7 @@ class scoreController {
         if (optional.isPresent()) {
             return ResponseEntity.badRequest().build();
         }
-        ScoreEntity score1 = serviceScore.save(score);
+        ScoreEntity score1 = serviceScore.saveScore(score);
 
         return ResponseEntity.ok().build();
     }
@@ -47,7 +47,7 @@ class scoreController {
         if (optional.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        ScoreEntity score1 = serviceScore.update(score);
+        ScoreEntity score1 = serviceScore.updateScore(score);
         return ResponseEntity.ok(score1);
     }
     @DeleteMapping("/eliminar/{id}")
@@ -55,7 +55,7 @@ class scoreController {
         if (!scoreDAO.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        serviceScore.deleteById(id);
+        serviceScore.deleteScoreById(id);
         return ResponseEntity.ok("Score eliminado correctamente");
     }
 }

@@ -7,6 +7,7 @@ import org.example.vtschool_mps_2526.models.entities.EnrollmentEntity;
 import org.example.vtschool_mps_2526.models.entities.ScoreEntity;
 import org.example.vtschool_mps_2526.models.entities.StudentEntity;
 import org.example.vtschool_mps_2526.service.serviceEnrollment;
+import org.example.vtschool_mps_2526.service.serviceScore;
 import org.example.vtschool_mps_2526.service.serviceStudent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
