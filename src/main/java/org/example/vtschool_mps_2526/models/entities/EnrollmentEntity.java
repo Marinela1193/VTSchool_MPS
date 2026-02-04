@@ -24,7 +24,7 @@ public class EnrollmentEntity {
     @Column(name = "year", nullable = false)
     private Integer year;
 
-    @OneToMany(mappedBy = "enrollment")
+    @OneToMany(mappedBy = "enrollmentEntity")
     private Set<ScoreEntity> scoreEntities = new LinkedHashSet<>();
 
     public Integer getId() {
