@@ -24,8 +24,6 @@ class studentsController {
     @Autowired
     private EnrollmentDAO enrollmentDAO;
 
-    /*@Autowired
-    private EnrollmentsDAO enrollmentsDAO;*/
 
     @GetMapping("/")
     public ResponseEntity<?> getStudents() {
