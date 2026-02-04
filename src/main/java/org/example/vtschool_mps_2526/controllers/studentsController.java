@@ -21,8 +21,8 @@ class studentsController {
     @Autowired
     private StudentsDAO studentsDAO;
 
-    @Autowired
-    private EnrollmentsDAO enrollmentsDAO;
+    /*@Autowired
+    private EnrollmentsDAO enrollmentsDAO;*/
 
     @GetMapping("/")
     public ResponseEntity<?> getStudents() {
@@ -35,7 +35,7 @@ class studentsController {
         return ResponseEntity.ok(student);
     }
 
-    @PostMapping("/")
+    /*@PostMapping("/")
     public ResponseEntity<?> addStudent(@Validated @RequestBody StudentsDTO student) {
 
         Optional<StudentEntity> optional = studentsDAO.findById(student.getIdcard());
@@ -70,7 +70,7 @@ class studentsController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
-    }
+    }*/
 
     @DeleteMapping("/{idcard}")
     public ResponseEntity<?> deleteStudent(@Validated @PathVariable("idcard") int idcard) {

@@ -22,10 +22,10 @@ public class SubjectEntity {
     @Column(name = "hours")
     private Integer hours;
 
-    @OneToMany(mappedBy = "subject")
+    @OneToMany(mappedBy = "subjectEntity")
     private Set<ScoreEntity> scoreEntities = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "subject")
+    @OneToMany(mappedBy = "subjectEntity")
     private Set<SubjectCoursEntity> subjectCoursEntities = new LinkedHashSet<>();
 
     public Integer getId() {

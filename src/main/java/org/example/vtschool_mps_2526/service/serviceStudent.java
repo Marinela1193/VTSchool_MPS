@@ -24,8 +24,8 @@ public class serviceStudent {
         return studentEntity.isPresent() ? studentEntity.get() : null;
     }
 
-    public StudentEntity getStudentByName(String name) {
-        Optional<StudentEntity> student = studentsDAO.findByName(name);
+    public StudentEntity getStudentByFirstName(String firstname) {
+        Optional<StudentEntity> student = studentsDAO.findByFirstname(firstname);
         return student.isPresent() ? student.get() : null;
     }
 

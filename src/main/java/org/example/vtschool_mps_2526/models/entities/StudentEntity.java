@@ -24,7 +24,7 @@ public class StudentEntity {
     @Column(name = "email", length = 100)
     private String email;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "studentEntity")
     private Set<EnrollmentEntity> enrollmentEntities = new LinkedHashSet<>();
 
     public String getIdcard() {

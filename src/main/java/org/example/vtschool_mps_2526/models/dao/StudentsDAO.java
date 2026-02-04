@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface StudentsDAO extends CrudRepository<StudentEntity, Integer> {
 
 
-    Optional<StudentEntity> findByName(String name);
+    Optional<StudentEntity> findByFirstname(String firstname);
 
     Optional<StudentEntity> findByEmail(String email);
 
