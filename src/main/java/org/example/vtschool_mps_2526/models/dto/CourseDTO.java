@@ -1,13 +1,13 @@
 package org.example.vtschool_mps_2526.models.dto;
 
-public class CoursDTO {
+public class CourseDTO {
     private Integer id;
     private String name;
 
-    public CoursDTO() {
+    public CourseDTO() {
     }
 
-    public CoursDTO(Integer id, String name) {
+    public CourseDTO(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

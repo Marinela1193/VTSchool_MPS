@@ -17,7 +17,7 @@ import java.util.Optional;
 @RequestMapping("/students")
 class studentsController {
     @Autowired
-    serviceStudent serviceStdudent;
+    serviceStudent serviceStudent;
 
     @Autowired
     private StudentsDAO studentsDAO;
@@ -27,16 +27,19 @@ class studentsController {
 
     @GetMapping("/")
     public ResponseEntity<?> getStudents() {
-        return ResponseEntity.ok(studentsDAO.findAll());
+        return ResponseEntity.ok(serviceStudent.getStudents());
     }
 
     @GetMapping("/{idcard}")
     public ResponseEntity<?> getStudent(@Validated @PathVariable("idcard") int idcard) {
-        StudentEntity student = serviceStdudent.getStudentById(idcard);
-        return ResponseEntity.ok(student);
+
+        StudentEntity student = serviceStudent.getStudentById(idcard);
+
+        return student != null ? ResponseEntity.ok(student) : ResponseEntity.notFound().build();
+
     }
 
-    @PostMapping("/")
+    @PostMapping("/add")
     public ResponseEntity<?> addStudent(@Validated @RequestBody StudentsDTO student) {
 
         Optional<StudentEntity> optional = studentsDAO.findById(student.getIdcard());
@@ -51,7 +54,7 @@ class studentsController {
         student1.setEmail(student.getEmail());
         student1.setPhone(student.getPhone());
 
-        serviceStdudent.saveStudent(student1);
+        serviceStudent.saveStudent(student1);
         return ResponseEntity.ok().build();
     }
 
@@ -67,7 +70,7 @@ class studentsController {
             student1.setEmail(student.getEmail());
             student1.setPhone(student.getPhone());
 
-            serviceStdudent.updateStudent(student1);
+            serviceStudent.updateStudent(student1);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
@@ -77,7 +80,7 @@ class studentsController {
     public ResponseEntity<?> deleteStudent(@Validated @PathVariable("idcard") int idcard) {
         Optional<StudentEntity> optional = studentsDAO.findById(idcard);
         if (optional.isPresent()) {
-            serviceStdudent.deleteById(idcard);
+            serviceStudent.deleteById(idcard);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();

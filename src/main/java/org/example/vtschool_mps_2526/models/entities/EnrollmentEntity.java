@@ -19,7 +19,7 @@ public class EnrollmentEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "course", nullable = false)
-    private CoursEntity course;
+    private CourseEntity course;
 
     @Column(name = "year", nullable = false)
     private Integer year;
@@ -43,11 +43,11 @@ public class EnrollmentEntity {
         this.studentEntity = studentEntity;
     }
 
-    public CoursEntity getCourse() {
+    public CourseEntity getCourse() {
         return course;
     }
 
-    public void setCourse(CoursEntity course) {
+    public void setCourse(CourseEntity course) {
         this.course = course;
     }
 

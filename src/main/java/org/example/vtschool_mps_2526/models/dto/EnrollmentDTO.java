@@ -5,14 +5,14 @@ import java.util.Set;
 public class EnrollmentDTO {
     private Integer id;
     private StudentsDTO student;
-    private CoursDTO course;
+    private CourseDTO course;
     private Integer year;
     private Set<ScoreDTO> scores;
 
     public EnrollmentDTO() {
     }
 
-    public EnrollmentDTO(Integer id, StudentsDTO student, CoursDTO course, Integer year, Set<ScoreDTO> scores) {
+    public EnrollmentDTO(Integer id, StudentsDTO student, CourseDTO course, Integer year, Set<ScoreDTO> scores) {
         this.id = id;
         this.student = student;
         this.course = course;
@@ -36,11 +36,11 @@ public class EnrollmentDTO {
         this.student = student;
     }
 
-    public CoursDTO getCourse() {
+    public CourseDTO getCourse() {
         return course;
     }
 
-    public void setCourse(CoursDTO course) {
+    public void setCourse(CourseDTO course) {
         this.course = course;
     }
 

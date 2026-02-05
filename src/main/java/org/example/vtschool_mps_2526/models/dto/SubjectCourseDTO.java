@@ -1,14 +1,14 @@
 package org.example.vtschool_mps_2526.models.dto;
 
-public class SubjectCoursDTO {
+public class SubjectCourseDTO {
     private Integer id;
     private SubjectDTO subject;
-    private CoursDTO course;
+    private CourseDTO course;
 
-    public SubjectCoursDTO() {
+    public SubjectCourseDTO() {
     }
 
-    public SubjectCoursDTO(Integer id, SubjectDTO subject, CoursDTO course) {
+    public SubjectCourseDTO(Integer id, SubjectDTO subject, CourseDTO course) {
         this.id = id;
         this.subject = subject;
         this.course = course;
@@ -30,11 +30,11 @@ public class SubjectCoursDTO {
         this.subject = subject;
     }
 
-    public CoursDTO getCourse() {
+    public CourseDTO getCourse() {
         return course;
     }
 
-    public void setCourse(CoursDTO course) {
+    public void setCourse(CourseDTO course) {
         this.course = course;
     }
 }

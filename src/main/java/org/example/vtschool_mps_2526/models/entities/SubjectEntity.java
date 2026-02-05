@@ -26,7 +26,7 @@ public class SubjectEntity {
     private Set<ScoreEntity> scoreEntities = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "subjectEntity")
-    private Set<SubjectCoursEntity> subjectCoursEntities = new LinkedHashSet<>();
+    private Set<SubjectCourseEntity> subjectCoursEntities = new LinkedHashSet<>();
 
     public Integer getId() {
         return id;
@@ -68,11 +68,11 @@ public class SubjectEntity {
         this.scoreEntities = scoreEntities;
     }
 
-    public Set<SubjectCoursEntity> getSubjectCourses() {
+    public Set<SubjectCourseEntity> getSubjectCourses() {
         return subjectCoursEntities;
     }
 
-    public void setSubjectCourses(Set<SubjectCoursEntity> subjectCoursEntities) {
+    public void setSubjectCourses(Set<SubjectCourseEntity> subjectCoursEntities) {
         this.subjectCoursEntities = subjectCoursEntities;
     }
 

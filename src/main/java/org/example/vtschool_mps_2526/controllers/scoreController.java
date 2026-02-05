@@ -31,7 +31,7 @@ class scoreController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<?> addScore(@Validated @RequestBody ScoreDTO score) {
+    public ResponseEntity<?> addScore(@Validated @RequestBody ScoreEntity score) {
 
         Optional<ScoreEntity> optional = scoreDAO.findById(score.getId());
         if (optional.isPresent()) {
@@ -39,10 +39,10 @@ class scoreController {
         }
         ScoreEntity score1 = serviceScore.saveScore(score);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(score1);
     }
     @PutMapping("/actualizar")
-    public ResponseEntity<?> updateScore(@Validated @RequestBody ScoreDTO score) {
+    public ResponseEntity<?> updateScore(@Validated @RequestBody ScoreEntity score) {
         Optional<ScoreEntity> optional = scoreDAO.findById(score.getId());
         if (optional.isEmpty()) {
             return ResponseEntity.badRequest().build();

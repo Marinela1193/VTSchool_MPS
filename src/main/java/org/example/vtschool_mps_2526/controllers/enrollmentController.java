@@ -2,10 +2,11 @@ package org.example.vtschool_mps_2526.controllers;
 
 import org.example.vtschool_mps_2526.models.dao.EnrollmentDAO;
 import org.example.vtschool_mps_2526.models.dto.EnrollmentDTO;
-import org.example.vtschool_mps_2526.models.entities.CoursEntity;
+import org.example.vtschool_mps_2526.models.entities.CourseEntity;
 import org.example.vtschool_mps_2526.models.entities.EnrollmentEntity;
 import org.example.vtschool_mps_2526.models.entities.ScoreEntity;
 import org.example.vtschool_mps_2526.models.entities.StudentEntity;
+import org.example.vtschool_mps_2526.service.serviceCourse;
 import org.example.vtschool_mps_2526.service.serviceEnrollment;
 import org.example.vtschool_mps_2526.service.serviceScore;
 import org.example.vtschool_mps_2526.service.serviceStudent;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/enrollments")
 class enrollmentController {
 
     @Autowired
@@ -25,6 +26,10 @@ class enrollmentController {
 
     @Autowired
     serviceStudent serviceStudent;
+    @Autowired
+    serviceScore serviceScore;
+    @Autowired
+    serviceCourse serviceCourse;
     @Autowired
     EnrollmentDAO enrollmentDAO;
 
@@ -53,11 +58,11 @@ class enrollmentController {
         StudentEntity student = serviceStudent.getStudentById(enrollmentDTO.getStudent().getIdcard());
         enrollment.setStudent(student);
 
-        CoursEntity course = serviceCourse.getCourseById(enrollmentDTO.getCourse().getId());
+        CourseEntity course = serviceCourse.getCourseById(enrollmentDTO.getCourse().getId());
         enrollment.setCourse(course);
 
-        ScoreEntity score = serviceScore.getScoresById(enrollmentDTO.getScores().getClass());
-        enrollment.setScores(score);
+        /*ScoreEntity score = serviceScore.getScoresById(enrollmentDTO.getId());
+        enrollment.setScores(score);*/
 
         serviceEnrollment.save(enrollment);
         return ResponseEntity.ok(enrollment);
@@ -80,11 +85,11 @@ class enrollmentController {
         StudentEntity student = serviceStudent.getStudentById(enrollmentDTO.getStudent().getIdcard());
         enrollment.setStudent(student);
 
-        CoursEntity course = serviceCourse.getCourseById(enrollmentDTO.getCourse().getId());
+        CourseEntity course = serviceCourse.getCourseById(enrollmentDTO.getCourse().getId());
         enrollment.setCourse(course);
 
-        ScoreEntity score = serviceScore.getScoresById(enrollmentDTO.getScores().getClass());
-        enrollment.setScores(score);
+       /* ScoreEntity score = serviceScore.getScoresById(enrollmentDTO.getScores().getClass());
+        enrollment.setScores(score);//crear metodo para devolver todas las notas de un alumno*/
 
         serviceEnrollment.update(enrollment);
         return ResponseEntity.ok(enrollment);
@@ -99,5 +104,7 @@ class enrollmentController {
         }
         return ResponseEntity.badRequest().build();
     }
+
+
 
 }

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "subject_courses", schema = "_da_vtschool_2526")
-public class SubjectCoursEntity {
+public class SubjectCourseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subject_courses_id_gen")
     @SequenceGenerator(name = "subject_courses_id_gen", sequenceName = "subject_courses_code_seq", allocationSize = 1)
@@ -17,7 +17,7 @@ public class SubjectCoursEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "course_id", nullable = false)
-    private CoursEntity course;
+    private CourseEntity course;
 
     public Integer getId() {
         return id;
@@ -35,11 +35,11 @@ public class SubjectCoursEntity {
         this.subjectEntity = subjectEntity;
     }
 
-    public CoursEntity getCourse() {
+    public CourseEntity getCourse() {
         return course;
     }
 
-    public void setCourse(CoursEntity course) {
+    public void setCourse(CourseEntity course) {
         this.course = course;
     }
 

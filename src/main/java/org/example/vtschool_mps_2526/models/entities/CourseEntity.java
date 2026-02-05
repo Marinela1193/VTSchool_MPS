@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "courses", schema = "_da_vtschool_2526")
-public class CoursEntity {
+public class CourseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "code", nullable = false)
@@ -20,7 +20,7 @@ public class CoursEntity {
     private Set<EnrollmentEntity> enrollmentEntities = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "course")
-    private Set<SubjectCoursEntity> subjectCoursEntities = new LinkedHashSet<>();
+    private Set<SubjectCourseEntity> subjectCourseEntities = new LinkedHashSet<>();
 
     public Integer getId() {
         return id;
@@ -46,12 +46,12 @@ public class CoursEntity {
         this.enrollmentEntities = enrollmentEntities;
     }
 
-    public Set<SubjectCoursEntity> getSubjectCourses() {
-        return subjectCoursEntities;
+    public Set<SubjectCourseEntity> getSubjectCourses() {
+        return subjectCourseEntities;
     }
 
-    public void setSubjectCourses(Set<SubjectCoursEntity> subjectCoursEntities) {
-        this.subjectCoursEntities = subjectCoursEntities;
+    public void setSubjectCourses(Set<SubjectCourseEntity> subjectCourseEntities) {
+        this.subjectCourseEntities = subjectCourseEntities;
     }
 
 }

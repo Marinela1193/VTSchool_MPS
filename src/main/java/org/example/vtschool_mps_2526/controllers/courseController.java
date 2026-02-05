@@ -1,31 +1,31 @@
 package org.example.vtschool_mps_2526.controllers;
 
-import org.example.vtschool_mps_2526.models.dao.CoursDAO;
-import org.example.vtschool_mps_2526.models.entities.CoursEntity;
-import org.example.vtschool_mps_2526.service.serviceCours;
+import org.example.vtschool_mps_2526.models.dao.CourseDAO;
+import org.example.vtschool_mps_2526.models.entities.CourseEntity;
+import org.example.vtschool_mps_2526.service.serviceCourse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/courses")
 class courseController {
 
     @Autowired
-    private serviceCours serviceCours;
+    private serviceCourse serviceCourse;
 
     @Autowired
-    private CoursDAO coursDAO;
+    private CourseDAO courseDAO;
 
     @GetMapping("/")
     public ResponseEntity<?> getCourses() {
-        return ResponseEntity.ok(serviceCours.getCourses());
+        return ResponseEntity.ok(serviceCourse.getCourses());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getCourseById(@Validated @PathVariable Integer id) {
-        CoursEntity course = serviceCours.getCourseById(id);
+        CourseEntity course = serviceCourse.getCourseById(id);
         if(course == null)
         {
             return ResponseEntity.notFound().build();
@@ -34,8 +34,8 @@ class courseController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<?> createCourse(@Validated @RequestBody CoursEntity course) {
-        CoursEntity saved = serviceCours.save(course);
+    public ResponseEntity<?> createCourse(@Validated @RequestBody CourseEntity course) {
+        CourseEntity saved = serviceCourse.save(course);
         if (saved == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -43,8 +43,8 @@ class courseController {
     }
 
     @PutMapping("/actualizar")
-    public ResponseEntity<?> updateCourse(@Validated @RequestBody CoursEntity course) {
-        CoursEntity updated = serviceCours.updateCours(course);
+    public ResponseEntity<?> updateCourse(@Validated @RequestBody CourseEntity course) {
+        CourseEntity updated = serviceCourse.updateCours(course);
         if (updated == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -53,10 +53,10 @@ class courseController {
 
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<?> deleteCourse(@Validated @PathVariable Integer id) {
-        if (!coursDAO.existsById(id)) {
+        if (!courseDAO.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        serviceCours.deleteById(id);
+        serviceCourse.deleteById(id);
         return ResponseEntity.ok("Curso eliminado correctamente");
     }
 }

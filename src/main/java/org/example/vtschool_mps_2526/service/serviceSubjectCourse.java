@@ -1,7 +1,7 @@
-package org.example.vtschool_mps_2526.service;
+/*package org.example.vtschool_mps_2526.service;
 
-import org.example.vtschool_mps_2526.models.dao.SubjectCoursDAO;
-import org.example.vtschool_mps_2526.models.entities.SubjectCoursEntity;
+import org.example.vtschool_mps_2526.models.dao.SubjectCourseDAO;
+import org.example.vtschool_mps_2526.models.entities.SubjectCourseEntity;
 import org.example.vtschool_mps_2526.models.entities.SubjectEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,29 +13,29 @@ import java.util.Optional;
 public class serviceSubjectCours {
 
     @Autowired
-    private SubjectCoursDAO subjectCoursDAO;
+    private SubjectCourseDAO subjectCoursDAO;
 
-    public SubjectCoursEntity findSubjectCoursById(Integer id) {
+    public SubjectCourseEntity findSubjectCoursById(Integer id) {
         Optional<SubjectEntity> subjectCoursEntity = subjectCoursDAO.findById(id);
         return subjectCoursEntity.isPresent() ? subjectCoursEntity.get() : null;
     }
 
-    public List<SubjectCoursEntity> findAllSubjecCourses() {
-        return (List<SubjectCoursEntity>) subjectCoursDAO.findAll();
+    public List<SubjectCourseEntity> findAllSubjecCourses() {
+        return (List<SubjectCourseEntity>) subjectCoursDAO.findAll();
     }
 
-    public SubjectCoursEntity saveSubjectCours(SubjectCoursEntity entity) {
+    public SubjectCourseEntity saveSubjectCours(SubjectCourseEntity entity) {
         if(subjectCoursDAO.existsById(entity.getId())) {
             return null;
         }
         return subjectCoursDAO.save(entity);
     }
 
-    public SubjectCoursEntity updateSubjectCours(SubjectCoursEntity entity) {
+    public SubjectCourseEntity updateSubjectCours(SubjectCourseEntity entity) {
         if(!subjectCoursDAO.existsById(entity.getId())) {
             return null;
         }
-        SubjectCoursEntity existing = subjectCoursDAO.findById(entity.getId()).get();
+        SubjectCourseEntity existing = subjectCoursDAO.findById(entity.getId()).get();
         existing.setSubject(entity.getSubject());
         existing.setCourse(entity.getCourse());
         return subjectCoursDAO.save(existing);
@@ -49,3 +49,4 @@ public class serviceSubjectCours {
 
 
 }
+*/

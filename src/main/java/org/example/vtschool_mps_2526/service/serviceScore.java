@@ -1,12 +1,16 @@
 package org.example.vtschool_mps_2526.service;
 
 import org.example.vtschool_mps_2526.models.dao.ScoreDAO;
+import org.example.vtschool_mps_2526.models.dto.ScoreDTO;
+import org.example.vtschool_mps_2526.models.entities.CourseEntity;
 import org.example.vtschool_mps_2526.models.entities.ScoreEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
-class serviceScore {
+public class serviceScore {
 
     @Autowired
     private ScoreDAO scoreDAO;
@@ -17,6 +21,7 @@ class serviceScore {
         }
         return scoreDAO.save(score);
     }
+
 
     public ScoreEntity updateScore(ScoreEntity score) {
         if(!scoreDAO.existsById(score.getId())) {
@@ -35,5 +40,15 @@ class serviceScore {
         if (scoreDAO.existsById(id)) {
             scoreDAO.deleteById(id);
         }
+    }
+
+    public ScoreEntity getScoresById(Integer id) {
+        Optional<ScoreEntity> score = scoreDAO.findById(id);
+        return score.isPresent() ? score.get() : null;
+    }
+
+    public ScoreEntity getScores(Integer id) {
+        Optional<ScoreEntity> score = scoreDAO.findById(id);
+        return score.isPresent() ? score.get() : null;
     }
 }
