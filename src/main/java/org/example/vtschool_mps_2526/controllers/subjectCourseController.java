@@ -1,10 +1,10 @@
-/*package org.example.vtschool_mps_2526.controllers;
+package org.example.vtschool_mps_2526.controllers;
 
 import org.example.vtschool_mps_2526.models.dto.SubjectCourseDTO;
 import org.example.vtschool_mps_2526.models.entities.CourseEntity;
 import org.example.vtschool_mps_2526.models.entities.SubjectCourseEntity;
 import org.example.vtschool_mps_2526.models.entities.SubjectEntity;
-import org.example.vtschool_mps_2526.service.serviceSubjectCours;
+import org.example.vtschool_mps_2526.service.serviceSubjectCourse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -13,20 +13,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/subjectCours")
-class subjectCoursController {
+@RequestMapping("/subjectCourse")
+class subjectCourseController {
     @Autowired
-    private serviceSubjectCours serviceSubjectCours;
+    private serviceSubjectCourse serviceSubjectCourse;
 
     @GetMapping("/")
-    public ResponseEntity<?> getAll() {
-        return ResponseEntity.ok(serviceSubjectCours.findAllSubjecCourses());
+    public ResponseEntity<?> getAllCourseSubjects() {
+        return ResponseEntity.ok(serviceSubjectCourse.getAllCourseSubjects());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@Validated @PathVariable Integer id) {
-       SubjectCourseEntity subjectCours = serviceSubjectCours.findSubjectCoursById(id);
-       return ResponseEntity.ok(subjectCours);
+    public ResponseEntity<?> getSubjectCourseById(@Validated @PathVariable Integer id) {
+       SubjectCourseEntity subjectCourse = serviceSubjectCourse.getSubjectCourseById(id);
+       return ResponseEntity.ok(subjectCourse);
     }
 
     @PostMapping("/crear")
@@ -37,7 +37,7 @@ class subjectCoursController {
         entity.setSubject(dto.getSubject() != null ? new SubjectEntity() : null);
         entity.setCourse(dto.getCourse() != null ? new CourseEntity() : null);
 
-        SubjectCourseEntity saved = serviceSubjectCours.saveSubjectCours(entity);
+        SubjectCourseEntity saved = serviceSubjectCourse.saveSubjectCourse(entity);
         if(saved == null) return ResponseEntity.badRequest().build();
 
         return ResponseEntity.ok(saved);
@@ -50,7 +50,7 @@ class subjectCoursController {
         entity.setSubject(dto.getSubject() != null ? new SubjectEntity() : null);
         entity.setCourse(dto.getCourse() != null ? new CourseEntity() : null);
 
-        SubjectCourseEntity updated = serviceSubjectCours.updateSubjectCours(entity);
+        SubjectCourseEntity updated = serviceSubjectCourse.updateSubjectCourse(entity);
         if(updated == null) return ResponseEntity.badRequest().build();
 
         return ResponseEntity.ok(updated);
@@ -58,12 +58,11 @@ class subjectCoursController {
 
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<?> delete(@Validated @PathVariable Integer id) {
-        Optional <SubjectCourseEntity> optional = Optional.ofNullable(serviceSubjectCours.findSubjectCoursById(id));
+        Optional <SubjectCourseEntity> optional = Optional.ofNullable(serviceSubjectCourse.getSubjectCourseById(id));
         if(optional.isPresent()) {
-            serviceSubjectCours.deleteSubjectCoursById(id);
+            serviceSubjectCourse.deleteSubjectCourseById(id);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
     }
 }
-*/

@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "subjects", schema = "_da_vtschool_2526")
-public class SubjectEntity {
+public class SubjectEntity  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "code", nullable = false)

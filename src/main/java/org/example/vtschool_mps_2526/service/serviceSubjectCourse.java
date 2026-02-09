@@ -1,4 +1,4 @@
-/*package org.example.vtschool_mps_2526.service;
+package org.example.vtschool_mps_2526.service;
 
 import org.example.vtschool_mps_2526.models.dao.SubjectCourseDAO;
 import org.example.vtschool_mps_2526.models.entities.SubjectCourseEntity;
@@ -10,43 +10,40 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class serviceSubjectCours {
+public class serviceSubjectCourse {
 
     @Autowired
-    private SubjectCourseDAO subjectCoursDAO;
+    private SubjectCourseDAO subjectCourseDAO;
 
-    public SubjectCourseEntity findSubjectCoursById(Integer id) {
-        Optional<SubjectEntity> subjectCoursEntity = subjectCoursDAO.findById(id);
-        return subjectCoursEntity.isPresent() ? subjectCoursEntity.get() : null;
+    public SubjectCourseEntity getSubjectCourseById(Integer id) {
+        Optional<SubjectCourseEntity> subjectCourseEntity = subjectCourseDAO.findById(id);
+        return subjectCourseEntity.isPresent() ? subjectCourseEntity.get() : null;
     }
 
-    public List<SubjectCourseEntity> findAllSubjecCourses() {
-        return (List<SubjectCourseEntity>) subjectCoursDAO.findAll();
+    public List<SubjectCourseEntity> getAllCourseSubjects() {
+        return (List<SubjectCourseEntity>) subjectCourseDAO.findAll();
     }
 
-    public SubjectCourseEntity saveSubjectCours(SubjectCourseEntity entity) {
-        if(subjectCoursDAO.existsById(entity.getId())) {
+    public SubjectCourseEntity saveSubjectCourse(SubjectCourseEntity entity) {
+        if(!subjectCourseDAO.existsById(entity.getId())) {
+            return subjectCourseDAO.save(entity);
+        }
+        return entity;
+    }
+
+    public SubjectCourseEntity updateSubjectCourse(SubjectCourseEntity entity) {
+        if(!subjectCourseDAO.existsById(entity.getId())) {
             return null;
         }
-        return subjectCoursDAO.save(entity);
-    }
-
-    public SubjectCourseEntity updateSubjectCours(SubjectCourseEntity entity) {
-        if(!subjectCoursDAO.existsById(entity.getId())) {
-            return null;
-        }
-        SubjectCourseEntity existing = subjectCoursDAO.findById(entity.getId()).get();
+        SubjectCourseEntity existing = subjectCourseDAO.findById(entity.getId()).get();
         existing.setSubject(entity.getSubject());
         existing.setCourse(entity.getCourse());
-        return subjectCoursDAO.save(existing);
+        return subjectCourseDAO.save(existing);
     }
 
-    public void deleteSubjectCoursById(Integer id) {
-        if(subjectCoursDAO.existsById(id)) {
-            subjectCoursDAO.deleteById(id);
+    public void deleteSubjectCourseById(Integer id) {
+        if(subjectCourseDAO.existsById(id)) {
+            subjectCourseDAO.deleteById(id);
         }
     }
-
-
 }
-*/
