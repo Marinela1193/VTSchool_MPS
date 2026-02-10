@@ -3,8 +3,8 @@ package org.example.vtschool_mps_2526.controllers;
 import org.example.vtschool_mps_2526.models.dao.EnrollmentDAO;
 import org.example.vtschool_mps_2526.models.dao.StudentsDAO;
 import org.example.vtschool_mps_2526.models.dto.StudentsDTO;
-import org.example.vtschool_mps_2526.models.entities.EnrollmentEntity;
 import org.example.vtschool_mps_2526.models.entities.StudentEntity;
+import org.example.vtschool_mps_2526.models.utils.StudentMapper;
 import org.example.vtschool_mps_2526.service.serviceStudent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +33,7 @@ class studentsController {
     @GetMapping("/{idcard}")
     public ResponseEntity<?> getStudent(@Validated @PathVariable("idcard") int idcard) {
 
-        StudentEntity student = serviceStudent.getStudentById(idcard);
+        StudentsDTO student = serviceStudent.getStudentById(idcard);
 
         return student != null ? ResponseEntity.ok(student) : ResponseEntity.notFound().build();
 
@@ -46,34 +46,20 @@ class studentsController {
         if (optional.isPresent()) {
             return ResponseEntity.badRequest().build();
         }
-        Optional<EnrollmentEntity> enroll = enrollmentDAO.findById(student.getIdcard());
-        StudentEntity student1 = new StudentEntity();
-        student1.setIdcard(String.valueOf(student.getIdcard()));
-        student1.setFirstname(student.getFirstName());
-        student1.setLastname(student.getLastName());
-        student1.setEmail(student.getEmail());
-        student1.setPhone(student.getPhone());
 
-        serviceStudent.saveStudent(student1);
+        serviceStudent.saveStudent(StudentMapper.INSTANCE.mapStudentDTOToEntity(student));
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{idcard}")
     public ResponseEntity<?> updateStudent(@Validated @RequestBody StudentsDTO student, @PathVariable("idcard") int idcard) {
-        Optional<StudentEntity> optional = studentsDAO.findById(idcard);
-        if (optional.isPresent()) {
-            Optional<EnrollmentEntity> enroll = enrollmentDAO.findById(student.getIdcard());
-            StudentEntity student1 = new StudentEntity();
-            student1.setIdcard(String.valueOf(student.getIdcard()));
-            student1.setFirstname(student.getFirstName());
-            student1.setLastname(student.getLastName());
-            student1.setEmail(student.getEmail());
-            student1.setPhone(student.getPhone());
 
-            serviceStudent.updateStudent(student1);
+        StudentEntity stu = serviceStudent.updateStudent(student);
+        if(stu != null) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
+
     }
 
     @DeleteMapping("/{idcard}")

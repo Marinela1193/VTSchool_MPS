@@ -9,6 +9,7 @@ import java.util.Set;
 @Table(name = "students", schema = "_da_vtschool_2526")
 public class StudentEntity {
     @Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idcard", nullable = false, length = 8)
     private String idcard;
 

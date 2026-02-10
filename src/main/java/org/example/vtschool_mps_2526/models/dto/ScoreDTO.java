@@ -2,16 +2,14 @@ package org.example.vtschool_mps_2526.models.dto;
 
 public class ScoreDTO {
     private Integer id;
-    private EnrollmentDTO enrollment;
     private SubjectDTO subject;
     private Integer score;
 
     public ScoreDTO() {
     }
 
-    public ScoreDTO(Integer id, EnrollmentDTO enrollment, SubjectDTO subject, Integer score) {
+    public ScoreDTO(Integer id, SubjectDTO subject, Integer score) {
         this.id = id;
-        this.enrollment = enrollment;
         this.subject = subject;
         this.score = score;
     }
@@ -22,14 +20,6 @@ public class ScoreDTO {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public EnrollmentDTO getEnrollment() {
-        return enrollment;
-    }
-
-    public void setEnrollment(EnrollmentDTO enrollment) {
-        this.enrollment = enrollment;
     }
 
     public SubjectDTO getSubject() {

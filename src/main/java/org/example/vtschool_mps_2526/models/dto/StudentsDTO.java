@@ -1,14 +1,18 @@
 package org.example.vtschool_mps_2526.models.dto;
 
+import java.util.Set;
+
 public class StudentsDTO {
     private int  idcard;
     private String firstName;
     private String lastName;
     private String phone;
     private String email;
+    private Set<EnrollmentDTO> enrollments;
 
     public StudentsDTO() {
     }
+
 
     public StudentsDTO(int idcard, String firstName, String lastName, String phone, String email) {
         this.idcard = idcard;
@@ -57,4 +61,13 @@ public class StudentsDTO {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public Set<EnrollmentDTO> getEnrollments() {
+        return enrollments;
+    }
+
+    public void setEnrollments(Set<EnrollmentDTO> enrollments) {
+        this.enrollments = enrollments;
+    }
+
 }

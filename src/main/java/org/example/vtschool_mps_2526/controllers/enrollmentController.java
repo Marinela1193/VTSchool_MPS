@@ -55,8 +55,8 @@ class enrollmentController {
         enrollment.setId(enrollmentDTO.getId());
         enrollment.setYear(enrollmentDTO.getYear());
 
-        StudentEntity student = serviceStudent.getStudentById(enrollmentDTO.getStudent().getIdcard());
-        enrollment.setStudent(student);
+       // StudentEntity student = serviceStudent.getStudentById(enrollmentDTO.getStudent().getIdcard());
+       // enrollment.setStudent(student);
 
         CourseEntity course = serviceCourse.getCourseById(enrollmentDTO.getCourse().getId());
         enrollment.setCourse(course);
@@ -82,8 +82,8 @@ class enrollmentController {
         enrollment.setId(enrollmentDTO.getId());
         enrollment.setYear(enrollmentDTO.getYear());
 
-        StudentEntity student = serviceStudent.getStudentById(enrollmentDTO.getStudent().getIdcard());
-        enrollment.setStudent(student);
+        //StudentEntity student = serviceStudent.getStudentById(enrollmentDTO.getStudent().getIdcard());
+        //enrollment.setStudent(student);
 
         CourseEntity course = serviceCourse.getCourseById(enrollmentDTO.getCourse().getId());
         enrollment.setCourse(course);

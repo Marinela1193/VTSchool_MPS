@@ -10,7 +10,4 @@ public interface StudentsDAO extends CrudRepository<StudentEntity, Integer> {
 
     Optional<StudentEntity> findByFirstname(String firstname);
 
-    Optional<StudentEntity> findByEmail(String email);
-
-    Optional<StudentEntity> findByPhone(String phone);
 }
