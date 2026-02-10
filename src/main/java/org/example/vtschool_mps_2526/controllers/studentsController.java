@@ -47,7 +47,7 @@ class studentsController {
             return ResponseEntity.badRequest().build();
         }
 
-        serviceStudent.saveStudent(StudentMapper.INSTANCE.mapStudentDTOToEntity(student));
+        serviceStudent.saveStudent(student);
         return ResponseEntity.ok().build();
     }
 

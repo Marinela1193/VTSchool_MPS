@@ -34,11 +34,13 @@ public class serviceStudent {
         return studentEntity.isPresent() ? StudentMapper.INSTANCE.mapStudentEntityToDTO(studentEntity.get()) : null;
     }
 
-    public StudentEntity saveStudent(StudentEntity student) {
-        if(!studentsDAO.existsById(Integer.valueOf(student.getIdcard()))){
-            return studentsDAO.save(student);
+    public StudentEntity saveStudent(StudentsDTO student) {
+        Optional<StudentEntity> optional = studentsDAO.findById((student.getIdcard()));
+
+        if(optional.isPresent()){
+        return studentsDAO.save(StudentMapper.INSTANCE.mapStudentDTOToEntity(student));
         }
-        return student;
+        return null;
     }
 
     public void deleteById(int idcard) {
