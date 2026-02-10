@@ -4,7 +4,6 @@ import org.example.vtschool_mps_2526.models.dao.EnrollmentDAO;
 import org.example.vtschool_mps_2526.models.dao.StudentsDAO;
 import org.example.vtschool_mps_2526.models.dto.StudentsDTO;
 import org.example.vtschool_mps_2526.models.entities.StudentEntity;
-import org.example.vtschool_mps_2526.models.utils.StudentMapper;
 import org.example.vtschool_mps_2526.service.serviceStudent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +41,8 @@ class studentsController {
     @PostMapping("/add")
     public ResponseEntity<?> addStudent(@Validated @RequestBody StudentsDTO student) {
 
-        Optional<StudentEntity> optional = studentsDAO.findById(student.getIdcard());
-        if (optional.isPresent()) {
+        StudentEntity optional = serviceStudent.saveStudent(student);
+        if (optional != null) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -64,9 +63,8 @@ class studentsController {
 
     @DeleteMapping("/{idcard}")
     public ResponseEntity<?> deleteStudent(@Validated @PathVariable("idcard") int idcard) {
-        Optional<StudentEntity> optional = studentsDAO.findById(idcard);
-        if (optional.isPresent()) {
-            serviceStudent.deleteById(idcard);
+
+        if(serviceStudent.deleteStudent(idcard)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();

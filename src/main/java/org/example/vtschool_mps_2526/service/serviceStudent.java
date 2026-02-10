@@ -43,10 +43,14 @@ public class serviceStudent {
         return null;
     }
 
-    public void deleteById(int idcard) {
-        if(studentsDAO.existsById(Integer.valueOf(idcard))){
+    public boolean deleteStudent(int idcard) {
+        Optional<StudentEntity> optional = studentsDAO.findById(idcard);
+
+        if(optional.isPresent()){
             studentsDAO.deleteById(Integer.valueOf(idcard));
+            return true;
         }
+        return false;
     }
 
     public StudentEntity updateStudent(StudentsDTO student) {
