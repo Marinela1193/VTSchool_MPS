@@ -1,6 +1,7 @@
 package org.example.vtschool_mps_2526.controllers;
 
 import org.example.vtschool_mps_2526.models.dao.CourseDAO;
+import org.example.vtschool_mps_2526.models.dto.CourseDTO;
 import org.example.vtschool_mps_2526.models.entities.CourseEntity;
 import org.example.vtschool_mps_2526.service.serviceCourse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,9 @@ class courseController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getCourseById(@Validated @PathVariable Integer id) {
-        CourseEntity course = serviceCourse.getCourseById(id);
+
+        CourseDTO course = serviceCourse.getCourseById(id);
+
         if(course == null)
         {
             return ResponseEntity.notFound().build();
@@ -33,30 +36,32 @@ class courseController {
         return ResponseEntity.ok(course);
     }
 
-    @PostMapping("/crear")
-    public ResponseEntity<?> createCourse(@Validated @RequestBody CourseEntity course) {
-        CourseEntity saved = serviceCourse.save(course);
-        if (saved == null) {
+    @PostMapping("/add")
+    public ResponseEntity<?> createCourse(@Validated @RequestBody CourseDTO course) {
+        CourseEntity courseEntity = serviceCourse.saveCourse(course);
+
+        if (courseEntity != null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(saved);
+        serviceCourse.saveCourse(course);
+        return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/actualizar")
-    public ResponseEntity<?> updateCourse(@Validated @RequestBody CourseEntity course) {
-        CourseEntity updated = serviceCourse.updateCours(course);
-        if (updated == null) {
-            return ResponseEntity.badRequest().build();
+    @PutMapping("/update")
+    public ResponseEntity<?> updateCourse(@Validated @RequestBody CourseDTO course) {
+
+        CourseEntity courseEntity = serviceCourse.updateCourse(course);
+        if (courseEntity != null) {
+            return ResponseEntity.ok().build();
         }
-        return ResponseEntity.ok(updated);
+        return ResponseEntity.badRequest().build();
     }
 
-    @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<?> deleteCourse(@Validated @PathVariable Integer id) {
-        if (!courseDAO.existsById(id)) {
-            return ResponseEntity.badRequest().build();
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteCourse(@Validated @PathVariable int id) {
+        if (serviceCourse.deleteCourseById(id)) {
+            return ResponseEntity.ok().build();
         }
-        serviceCourse.deleteById(id);
-        return ResponseEntity.ok("Curso eliminado correctamente");
+        return ResponseEntity.badRequest().build();
     }
 }
