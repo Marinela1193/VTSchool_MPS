@@ -22,49 +22,40 @@ class subjectController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getSubject(@Validated @PathVariable Integer id) {
-        Optional<SubjectEntity> optional = Optional.ofNullable(serviceSubject.findSubjectById(id));
-        return optional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
+    public ResponseEntity<?> getSubjectById(@Validated @PathVariable int id) {
+
+        SubjectDTO subjectDTO = serviceSubject.getSubjectById(id);
+
+        return subjectDTO != null ? ResponseEntity.ok(subjectDTO) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/crear")
-    public ResponseEntity<?> createSubject(@Validated @RequestBody SubjectDTO dto) {
-        SubjectEntity subject = new SubjectEntity();
-        subject.setId(dto.getId());
-        subject.setName(dto.getName());
-        subject.setYear(dto.getYear());
-        subject.setHours(dto.getHours());
+    @PostMapping("/add")
+    public ResponseEntity<?> createSubject(@Validated @RequestBody SubjectDTO subjectDto) {
 
-        SubjectEntity saved = serviceSubject.saveSubject(subject);
-        if(saved == null) return ResponseEntity.badRequest().build();
-
-        return ResponseEntity.ok(saved);
-    }
-
-    @PutMapping("/actualizar")
-    public ResponseEntity<?> updateSubject(@Validated @RequestBody SubjectDTO dto) {
-        SubjectEntity subject = new SubjectEntity();
-        subject.setId(dto.getId());
-        subject.setName(dto.getName());
-        subject.setYear(dto.getYear());
-        subject.setHours(dto.getHours());
-
-        SubjectEntity updated = serviceSubject.updateSubject(subject);
-        if(updated == null) return ResponseEntity.badRequest().build();
-
-        return ResponseEntity.ok(updated);
-    }
-
-    @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<?> deleteSubject(@Validated @PathVariable Integer id) {
-        Optional <SubjectEntity> optional = Optional.ofNullable(serviceSubject.findSubjectById(id));
-
-        if(!optional.isPresent())
-        {
+        SubjectEntity subject = serviceSubject.saveSubject(subjectDto);
+        if(subject != null){
             return ResponseEntity.badRequest().build();
         }
+        serviceSubject.saveSubject(subjectDto);
+        return ResponseEntity.ok().build();
 
-        serviceSubject.deleteSubjectById(id);
-        return ResponseEntity.ok("Subject eliminado correctamente");
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateSubject(@Validated @RequestBody SubjectDTO subjectDto) {
+        SubjectEntity subject = serviceSubject.updateSubject(subjectDto);
+        if(subject != null){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteSubject(@Validated @PathVariable Integer id) {
+
+        if(serviceSubject.deleteSubjectById(id)){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }
