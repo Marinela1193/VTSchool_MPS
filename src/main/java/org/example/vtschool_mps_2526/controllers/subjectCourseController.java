@@ -13,56 +13,49 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/subjectCourse")
+@RequestMapping("/subjectCourses")
 class subjectCourseController {
     @Autowired
     private serviceSubjectCourse serviceSubjectCourse;
 
     @GetMapping("/")
-    public ResponseEntity<?> getAllCourseSubjects() {
-        return ResponseEntity.ok(serviceSubjectCourse.getAllCourseSubjects());
+    public ResponseEntity<?> getAllSubjectCourses() {
+        return ResponseEntity.ok(serviceSubjectCourse.getAllSubjectCourses());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getSubjectCourseById(@Validated @PathVariable Integer id) {
-       SubjectCourseEntity subjectCourse = serviceSubjectCourse.getSubjectCourseById(id);
-       return ResponseEntity.ok(subjectCourse);
+    public ResponseEntity<?> getSubjectCourseById(@Validated @PathVariable int id) {
+
+        SubjectCourseDTO subjectCourseDTO = serviceSubjectCourse.getSubjectCourseById(id);
+
+        return subjectCourseDTO != null ? ResponseEntity.ok(subjectCourseDTO) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/crear")
-    public ResponseEntity<?> create(@Validated @RequestBody SubjectCourseDTO dto) {
-        SubjectCourseEntity entity = new SubjectCourseEntity();
-        entity.setId(dto.getId());
+    @PostMapping("/add")
+    public ResponseEntity<?> addSubjectCourse(@Validated @RequestBody SubjectCourseDTO subjectCourseDTO) {
 
-        entity.setSubject(dto.getSubject() != null ? new SubjectEntity() : null);
-        entity.setCourse(dto.getCourse() != null ? new CourseEntity() : null);
-
-        SubjectCourseEntity saved = serviceSubjectCourse.saveSubjectCourse(entity);
-        if(saved == null) return ResponseEntity.badRequest().build();
-
-        return ResponseEntity.ok(saved);
+        SubjectCourseEntity entity = serviceSubjectCourse.saveSubjectCourse(subjectCourseDTO);
+       if(entity != null) {
+           return ResponseEntity.badRequest().build();
+       }
+       serviceSubjectCourse.saveSubjectCourse(subjectCourseDTO);
+        return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/actualizar")
-    public ResponseEntity<?> update(@Validated @RequestBody SubjectCourseDTO dto) {
-        SubjectCourseEntity entity = new SubjectCourseEntity();
-        entity.setId(dto.getId());
-        entity.setSubject(dto.getSubject() != null ? new SubjectEntity() : null);
-        entity.setCourse(dto.getCourse() != null ? new CourseEntity() : null);
-
-        SubjectCourseEntity updated = serviceSubjectCourse.updateSubjectCourse(entity);
-        if(updated == null) return ResponseEntity.badRequest().build();
-
-        return ResponseEntity.ok(updated);
-    }
-
-    @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<?> delete(@Validated @PathVariable Integer id) {
-        Optional <SubjectCourseEntity> optional = Optional.ofNullable(serviceSubjectCourse.getSubjectCourseById(id));
-        if(optional.isPresent()) {
-            serviceSubjectCourse.deleteSubjectCourseById(id);
+    @PutMapping("/update")
+    public ResponseEntity<?> updateSubjectCourse(@Validated @RequestBody SubjectCourseDTO subjectCourseDTO) {
+        SubjectCourseEntity entity = serviceSubjectCourse.updateSubjectCourse(subjectCourseDTO);
+        if(entity != null) {
             return ResponseEntity.ok().build();
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.badRequest().build();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteSubjectCourse(@Validated @PathVariable int id) {
+        if(serviceSubjectCourse.deleteSubjectCourseById(id)){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 }
