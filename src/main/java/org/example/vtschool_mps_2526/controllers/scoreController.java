@@ -20,42 +20,46 @@ class scoreController {
     @Autowired
     private ScoreDAO scoreDAO;
 
-    @GetMapping("/scores")
+    @GetMapping("/")
     public ResponseEntity<?> getScores() {
-        return ResponseEntity.ok(scoreDAO.findAll());
+        return ResponseEntity.ok(serviceScore.getScores());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getScore(@Validated @PathVariable Integer id) {
-        return ResponseEntity.ok(scoreDAO.findById(id));
+
+        ScoreDTO score = serviceScore.getScoresById(id);
+
+        if(score == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(score);
     }
 
-    @PostMapping("/crear")
-    public ResponseEntity<?> addScore(@Validated @RequestBody ScoreEntity score) {
+    @PostMapping("/add")
+    public ResponseEntity<?> addScore(@Validated @RequestBody ScoreDTO score) {
 
-        Optional<ScoreEntity> optional = scoreDAO.findById(score.getId());
-        if (optional.isPresent()) {
+        ScoreEntity scoreEntity = serviceScore.saveScore(score);
+        if (scoreEntity != null) {
             return ResponseEntity.badRequest().build();
         }
-        ScoreEntity score1 = serviceScore.saveScore(score);
-
-        return ResponseEntity.ok(score1);
+        serviceScore.saveScore(score);
+        return ResponseEntity.ok().build();
     }
     @PutMapping("/actualizar")
-    public ResponseEntity<?> updateScore(@Validated @RequestBody ScoreEntity score) {
-        Optional<ScoreEntity> optional = scoreDAO.findById(score.getId());
-        if (optional.isEmpty()) {
-            return ResponseEntity.badRequest().build();
+    public ResponseEntity<?> updateScore(@Validated @RequestBody ScoreDTO score) {
+
+        ScoreEntity scoreEntity = serviceScore.saveScore(score);
+
+        if (scoreEntity != null) {
+            return ResponseEntity.ok().build();
         }
-        ScoreEntity score1 = serviceScore.updateScore(score);
-        return ResponseEntity.ok(score1);
+        return ResponseEntity.badRequest().build();
     }
-    @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<?> deleteScore(@Validated @PathVariable Integer id) {
-        if (!scoreDAO.existsById(id)) {
-            return ResponseEntity.badRequest().build();
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteScore(@Validated @PathVariable int id) {
+        if (serviceScore.deleteScoreById(id)) {
+            return ResponseEntity.ok().build();
         }
-        serviceScore.deleteScoreById(id);
-        return ResponseEntity.ok("Score eliminado correctamente");
+        return ResponseEntity.badRequest().build();
     }
 }
