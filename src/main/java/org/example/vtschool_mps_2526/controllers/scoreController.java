@@ -45,10 +45,10 @@ class scoreController {
         serviceScore.saveScore(score);
         return ResponseEntity.ok().build();
     }
-    @PutMapping("/actualizar")
+    @PutMapping("/update")
     public ResponseEntity<?> updateScore(@Validated @RequestBody ScoreDTO score) {
 
-        ScoreEntity scoreEntity = serviceScore.saveScore(score);
+        ScoreEntity scoreEntity = serviceScore.updateScore(score);
 
         if (scoreEntity != null) {
             return ResponseEntity.ok().build();
