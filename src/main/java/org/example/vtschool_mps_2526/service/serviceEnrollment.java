@@ -2,10 +2,13 @@ package org.example.vtschool_mps_2526.service;
 
 import org.example.vtschool_mps_2526.models.dao.EnrollmentDAO;
 import org.example.vtschool_mps_2526.models.dao.StudentsDAO;
+import org.example.vtschool_mps_2526.models.dto.EnrollmentDTO;
 import org.example.vtschool_mps_2526.models.entities.EnrollmentEntity;
+import org.example.vtschool_mps_2526.models.utils.EnrollmentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,41 +20,48 @@ public class serviceEnrollment {
     @Autowired
     private StudentsDAO studentsDAO;
 
-    public List<EnrollmentEntity> getEnrollments() {
-        return (List<EnrollmentEntity>) enrollmentDAO.findAll();
+    public List<EnrollmentDTO> getEnrollments() {
+        List<EnrollmentDTO> enrollmentsList = new ArrayList<>();
+
+        for (EnrollmentEntity enrollmentEntity : enrollmentDAO.findAll()) {
+            enrollmentsList.add(EnrollmentMapper.INSTANCE.mapEnrollmentEntityToEnrollmentDTO(enrollmentEntity));
+        }
+        return enrollmentsList;
     }
 
-    public EnrollmentEntity getEnrollmentById(Integer id) {
+    public EnrollmentDTO getEnrollmentById(int id) {
         Optional<EnrollmentEntity> enrollmentEntity = enrollmentDAO.findById(id);
-        return enrollmentEntity.isPresent() ? enrollmentEntity.get() : null;
+        return enrollmentEntity.isPresent() ? EnrollmentMapper.INSTANCE.mapEnrollmentEntityToEnrollmentDTO(enrollmentEntity.get()) : null;
     }
 
 
-     public EnrollmentEntity save(EnrollmentEntity enrollment) {
-        if(!enrollmentDAO.existsById(Integer.valueOf(enrollment.getId()))){
-            return enrollmentDAO.save(enrollment);
-        }
-        return enrollment;
+     public EnrollmentEntity saveEnrollment(EnrollmentDTO enrollmentDTO) {
+         Optional<EnrollmentEntity> enrollmentEntity = enrollmentDAO.findById(enrollmentDTO.getId());
+
+         if(enrollmentEntity.isPresent()) {
+             return enrollmentDAO.save(EnrollmentMapper.INSTANCE.mapEnrollmentDTOToEnrollmentEntity(enrollmentDTO));
+         }
+         return null;
     }
 
-    public void deleteById(int id) {
-        if(enrollmentDAO.existsById(Integer.valueOf(id))){
-            enrollmentDAO.deleteById(Integer.valueOf(id));
+    public boolean deleteEnrollmentById(int id) {
+        Optional<EnrollmentEntity> enrollmentEntity = enrollmentDAO.findById(id);
+
+        if(enrollmentEntity.isPresent()) {
+            enrollmentDAO.deleteById(id);
+            return true;
         }
+        return false;
     }
 
-    public EnrollmentEntity update(EnrollmentEntity enrollment) {
+    public EnrollmentEntity updateEnrollment(EnrollmentDTO enrollmentDTO) {
 
-        EnrollmentEntity enroll = new EnrollmentEntity();
+        Optional<EnrollmentEntity> enrollmentEntity = enrollmentDAO.findById(enrollmentDTO.getId());
 
-        if(enrollmentDAO.existsById(Integer.valueOf(enrollment.getId()))){
-            enroll.setId(enrollment.getId());
-            enroll.setCourse(enrollment.getCourse());
-            enroll.setYear(enrollment.getYear());
-
-            return enrollmentDAO.save(enroll);
+        if(enrollmentEntity.isPresent()) {
+            return enrollmentDAO.save(EnrollmentMapper.INSTANCE.mapEnrollmentDTOToEnrollmentEntity(enrollmentDTO));
         }
-        return enroll;
+        return null;
     }
 
 

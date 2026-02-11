@@ -2,10 +2,7 @@ package org.example.vtschool_mps_2526.controllers;
 
 import org.example.vtschool_mps_2526.models.dao.EnrollmentDAO;
 import org.example.vtschool_mps_2526.models.dto.EnrollmentDTO;
-import org.example.vtschool_mps_2526.models.entities.CourseEntity;
 import org.example.vtschool_mps_2526.models.entities.EnrollmentEntity;
-import org.example.vtschool_mps_2526.models.entities.ScoreEntity;
-import org.example.vtschool_mps_2526.models.entities.StudentEntity;
 import org.example.vtschool_mps_2526.service.serviceCourse;
 import org.example.vtschool_mps_2526.service.serviceEnrollment;
 import org.example.vtschool_mps_2526.service.serviceScore;
@@ -33,74 +30,42 @@ class enrollmentController {
     @Autowired
     EnrollmentDAO enrollmentDAO;
 
-    @GetMapping("/enrollments")
+    @GetMapping("/")
     public ResponseEntity<?> getEnrollments() {
-        return ResponseEntity.ok(enrollmentDAO.findAll());
+        return ResponseEntity.ok(serviceEnrollment.getEnrollments());
     }
 
-    @GetMapping("/enrollments/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getEnrollmentById(@Validated @PathVariable("id") int id) {
-        EnrollmentEntity enrollment = serviceEnrollment.getEnrollmentById(id);
-        return ResponseEntity.ok(enrollment);
+        EnrollmentDTO enrollmentDTO = serviceEnrollment.getEnrollmentById(id);
+        return enrollmentDTO != null ? ResponseEntity.ok(enrollmentDTO) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/crearEnrollment")
-    public ResponseEntity<?> createEnrollment(@Validated @RequestBody EnrollmentDTO enrollmentDTO) {
+    @PostMapping("/add")
+    public ResponseEntity<?> addEnrollment(@Validated @RequestBody EnrollmentDTO enrollmentDTO) {
 
-        Optional<EnrollmentEntity> optional = enrollmentDAO.findById(enrollmentDTO.getId());
-        if(optional.isPresent()) {
-            return ResponseEntity.badRequest().build();
-        }
-        EnrollmentEntity enrollment = new EnrollmentEntity();
-        enrollment.setId(enrollmentDTO.getId());
-        enrollment.setYear(enrollmentDTO.getYear());
-
-       // StudentEntity student = serviceStudent.getStudentById(enrollmentDTO.getStudent().getIdcard());
-       // enrollment.setStudent(student);
-
-        CourseEntity course = serviceCourse.getCourseById(enrollmentDTO.getCourse().getId());
-        enrollment.setCourse(course);
-
-        /*ScoreEntity score = serviceScore.getScoresById(enrollmentDTO.getId());
-        enrollment.setScores(score);*/
-
-        serviceEnrollment.save(enrollment);
-        return ResponseEntity.ok(enrollment);
+       EnrollmentEntity enrollmentEntity = serviceEnrollment.saveEnrollment(enrollmentDTO);
+       if(enrollmentEntity != null) {
+           return ResponseEntity.badRequest().build();
+       }
+       serviceEnrollment.saveEnrollment(enrollmentDTO);
+       return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/ActualizarEnrollment")
+    @PutMapping("/update")
     public ResponseEntity<?>  updateEnrollment(@Validated @RequestBody EnrollmentDTO enrollmentDTO) {
-        Optional<EnrollmentEntity> optional = enrollmentDAO.findById(enrollmentDTO.getId());
-        if(optional.isEmpty()) {
-            return ResponseEntity.badRequest().build();
+        EnrollmentEntity enrollmentEntity = serviceEnrollment.updateEnrollment(enrollmentDTO);
+        if(enrollmentEntity != null) {
+            return ResponseEntity.ok().build();
         }
-        Optional<EnrollmentEntity> enrolment = enrollmentDAO.findById(enrollmentDTO.getId());
-        if(enrolment.isPresent()) {
-            return ResponseEntity.badRequest().build();
-        }
-        EnrollmentEntity enrollment = new EnrollmentEntity();
-        enrollment.setId(enrollmentDTO.getId());
-        enrollment.setYear(enrollmentDTO.getYear());
-
-        //StudentEntity student = serviceStudent.getStudentById(enrollmentDTO.getStudent().getIdcard());
-        //enrollment.setStudent(student);
-
-        CourseEntity course = serviceCourse.getCourseById(enrollmentDTO.getCourse().getId());
-        enrollment.setCourse(course);
-
-       /* ScoreEntity score = serviceScore.getScoresById(enrollmentDTO.getScores().getClass());
-        enrollment.setScores(score);//crear metodo para devolver todas las notas de un alumno*/
-
-        serviceEnrollment.update(enrollment);
-        return ResponseEntity.ok(enrollment);
+        return ResponseEntity.badRequest().build();
     }
 
-    @DeleteMapping("/EliminarEnrollment")
-    public ResponseEntity<?> deleteEnrollment(@Validated @RequestBody EnrollmentDTO enrollmentDTO) {
-        Optional<EnrollmentEntity> optional = enrollmentDAO.findById(enrollmentDTO.getId());
-        if(optional.isPresent()) {
-            serviceEnrollment.deleteById(enrollmentDTO.getId());
-            return ResponseEntity.ok(enrollmentDTO);
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteEnrollment(@Validated @RequestBody int id) {
+
+        if(serviceEnrollment.deleteEnrollmentById(id)) {
+            return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
     }
